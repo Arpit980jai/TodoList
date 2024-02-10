@@ -11,8 +11,14 @@ class ToDoListViewController: UITableViewController {
 
     var todoList = ["Wake Up Early", "Study 30 Mins", "Run for 15 mins", "Eat Breakfast","Join Office", "Take a break for Lunch","Logot from office", "Eat some Snack", "Enjoy, Have Fun", "Eat Dinner", "Study for 2 hours", "Sleep Early"]
     
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let savedList = defaults.array(forKey: "ToDoList") as? [String] {
+                todoList = savedList
+            }
         // Do any additional setup after loading the view.
     }
     
@@ -47,6 +53,7 @@ class ToDoListViewController: UITableViewController {
         let action = UIAlertAction(title: "Add New Item", style: .default){(action) in
             self.todoList.append(textField.text!)
             self.tableView.reloadData()
+            self.defaults.set(self.todoList, forKey: "ToDoList")
         }
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = "Enter new kask"
